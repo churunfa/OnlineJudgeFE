@@ -116,6 +116,7 @@ export const m = {
   Overview: '概要',
   Admin_Helper: '管理员助手',
   StartAt: '开始时间',
+  CreatAt: '创建时间',
   EndAt: '结束时间',
   ContestType: '比赛类型',
   Creator: '发起人',
@@ -129,6 +130,7 @@ export const m = {
   Not_Started: '筹备中',
   Ended: '已结束',
   No_contest: '尚无练习或比赛',
+  No_special: '尚无专题',
   Please_login_first: '请先登录！',
   // ContestProblemList.vue
   Problems_List: '问题列表',
@@ -146,7 +148,9 @@ export const m = {
   // NavBar.vue
   Home: '首页',
   NavProblems: '问题',
-  Contests: '练习&比赛',
+  Contests: '比赛',
+  SpecialType: '专题类别',
+  Special: '专题',
   NavStatus: '状态',
   Rank: '排名',
   ACM_Rank: 'ACM 排名',
@@ -257,5 +261,6 @@ export const m = {
   UserHomeserSubmissions: '提交次数',
   UserHomeScore: '分数',
   List_Solved_Problems: '已解决问题的列表',
-  UserHomeIntro: '这个家伙太懒了，还没有做题呢...'
+  UserHomeIntro: '这个家伙太懒了，还没有做题呢...',
+  long_term: '长期'
 }

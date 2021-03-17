@@ -60,13 +60,16 @@
         <Row type="flex" justify="space-between">
           <Col :span="10">
             <div class="status" v-if="statusVisible">
-              <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
+              <template v-if="!(this.contestID||this.specialID) || (this.contestID && OIContestRealTimePermission) || (this.specialID)">
                 <span>{{$t('m.Status')}}</span>
                 <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
                   {{$t('m.' + submissionStatus.text.replace(/ /g, "_"))}}
                 </Tag>
               </template>
               <template v-else-if="this.contestID && !OIContestRealTimePermission">
+                <Alert type="success" show-icon>{{$t('m.Submitted_successfully')}}</Alert>
+              </template>
+              <template v-else-if="this.specialID">
                 <Alert type="success" show-icon>{{$t('m.Submitted_successfully')}}</Alert>
               </template>
             </div>
@@ -76,8 +79,8 @@
             <div v-else-if="this.contestID && !OIContestRealTimePermission && submissionExists">
               <Alert type="success" show-icon>{{$t('m.You_have_submitted_a_solution')}}</Alert>
             </div>
-            <div v-if="contestEnded">
-              <Alert type="warning" show-icon>{{$t('m.Contest_has_ended')}}</Alert>
+            <div v-else-if="this.specialID && submissionExists">
+              <Alert type="success" show-icon>{{$t('m.You_have_submitted_a_solution')}}</Alert>
             </div>
           </Col>
 
@@ -114,6 +117,17 @@
             {{$t('m.Announcements')}}
           </VerticalMenu-item>
         </template>
+        <template v-else-if="this.specialID">
+          <VerticalMenu-item :route="{name: 'special-problem-list', params: {specialID: specialID}}">
+            <Icon type="ios-photos"></Icon>
+            {{$t('m.Problems')}}
+          </VerticalMenu-item>
+
+          <VerticalMenu-item :route="{name: 'special-announcement-list', params: {specialID: specialID}}">
+            <Icon type="chatbubble-working"></Icon>
+            {{$t('m.Announcements')}}
+          </VerticalMenu-item>
+        </template>
 
         <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission" :route="submissionRoute">
           <Icon type="navicon-round"></Icon>
@@ -127,6 +141,17 @@
             {{$t('m.Rankings')}}
           </VerticalMenu-item>
           <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
+            <Icon type="home"></Icon>
+            {{$t('m.View_Contest')}}
+          </VerticalMenu-item>
+        </template>
+
+        <template v-else-if="this.specialID">
+          <VerticalMenu-item :route="{name: 'special-rank', params: {specialID: specialID}}">
+            <Icon type="stats-bars"></Icon>
+            {{$t('m.Rankings')}}
+          </VerticalMenu-item>
+          <VerticalMenu-item :route="{name: 'special-details', params: {specialID: specialID}}">
             <Icon type="home"></Icon>
             {{$t('m.View_Contest')}}
           </VerticalMenu-item>
@@ -154,7 +179,13 @@
           </li>
           <li>
             <p>{{$t('m.Created')}}</p>
-            <p>{{problem.created_by.username}}</p></li>
+            <p>
+              <router-link :to="'/user-home/?username=' + problem.created_by.username"
+                           :class="$store.getters.usernameStyle(problem.created_by)"
+              >
+                {{problem.created_by.username}}
+              </router-link>
+            </p></li>
           <li v-if="problem.difficulty">
             <p>{{$t('m.Level')}}</p>
             <p>{{$t('m.' + problem.difficulty)}}</p></li>
@@ -227,6 +258,7 @@
         captchaCode: '',
         captchaSrc: '',
         contestID: '',
+        specialID: '',
         problemID: '',
         submitting: false,
         code: '',
@@ -273,6 +305,7 @@
     },
     mounted () {
       this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: false})
+      this.$store.commit('change_special_item_visible', {menu: false})
       this.init()
     },
     methods: {
@@ -280,9 +313,20 @@
       init () {
         this.$Loading.start()
         this.contestID = this.$route.params.contestID
+        this.specialID = this.$route.params.specialID
         this.problemID = this.$route.params.problemID
-        let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
-        api[func](this.problemID, this.contestID).then(res => {
+        let func, funcID
+        if (this.$route.name === 'problem-details') {
+          func = 'getProblem'
+        } else if (this.$route.name === 'contest-problem-details') {
+          func = 'getContestProblem'
+          funcID = this.contestID
+        } else {
+          func = 'getSpecialProblem'
+          funcID = this.specialID
+        }
+        // func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
+        api[func](this.problemID, funcID).then(res => {
           this.$Loading.finish()
           let problem = res.data.data
           this.changeDomTitle({title: problem.title})
@@ -403,11 +447,13 @@
         this.submissionId = ''
         this.result = {result: 9}
         this.submitting = true
+        console.log(this.submitting)
         let data = {
           problem_id: this.problem.id,
           language: this.language,
           code: this.code,
-          contest_id: this.contestID
+          contest_id: this.contestID,
+          special_id: this.specialID
         }
         if (this.captchaRequired) {
           data.captcha = this.captchaCode
@@ -484,6 +530,8 @@
       submissionRoute () {
         if (this.contestID) {
           return {name: 'contest-submission-list', query: {problemID: this.problemID}}
+        } else if (this.specialID) {
+          return {name: 'special-submission-list', query: {problemID: this.problemID}}
         } else {
           return {name: 'submission-list', query: {problemID: this.problemID}}
         }
@@ -494,6 +542,7 @@
       clearInterval(this.refreshStatus)
 
       this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: true})
+      this.$store.commit('change_special_item_visible', {menu: true})
       storage.set(buildProblemCodeKey(this.problem._id, from.params.contestID), {
         code: this.code,
         language: this.language,

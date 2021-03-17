@@ -23,6 +23,10 @@ const getters = {
   },
   hasProblemPermission: (state, getters) => {
     return getters.user.problem_permission !== PROBLEM_PERMISSION.NONE
+  },
+  usernameStyle: (state) => function (user) {
+    if (user.admin_type === USER_TYPE.SUPER_ADMIN) return 'root'
+    return 'lv' + user.lv
   }
 }
 

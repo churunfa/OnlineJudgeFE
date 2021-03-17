@@ -116,6 +116,7 @@ export const m = {
   Overview: '概要',
   Admin_Helper: '管理員助手',
   StartAt: '開始時間',
+  CreatAt: '創建時間',
   EndAt: '結束時間',
   ContestType: '比賽類型',
   Creator: '發起人',
@@ -129,6 +130,7 @@ export const m = {
   Not_Started: '準備中',
   Ended: '已結束',
   No_contest: '目前無任何比賽',
+  No_special: '目前無任何專題',
   Please_login_first: '請先登入!',
   // ContestProblemList.vue
   Problems_List: '試題列表',
@@ -147,6 +149,8 @@ export const m = {
   Home: '首頁',
   NavProblems: '試題',
   Contests: '比賽',
+  SpecialType: '專題類別',
+  Special: '專題',
   NavStatus: '狀態',
   Rank: '排名',
   ACM_Rank: 'ACM 排名',
@@ -257,5 +261,6 @@ export const m = {
   UserHomeserSubmissions: '提交次數',
   UserHomeScore: '分數',
   List_Solved_Problems: '已完成題目的列表',
-  UserHomeIntro: '這個使用者尚未解題...'
+  UserHomeIntro: '這個使用者尚未解題...',
+  long_term: '長期'
 }

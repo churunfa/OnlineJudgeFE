@@ -176,6 +176,7 @@
         limit: 12,
         page: 1,
         contestID: '',
+        specialID: '',
         problemID: '',
         routeName: '',
         JUDGE_STATUS: '',
@@ -192,6 +193,7 @@
     methods: {
       init () {
         this.contestID = this.$route.params.contestID
+        this.specialID = this.$route.params.specialID
         let query = this.$route.query
         this.problemID = query.problemID
         this.formFilter.myself = query.myself === '1'
@@ -215,9 +217,13 @@
       getSubmissions () {
         let params = this.buildQuery()
         params.contest_id = this.contestID
+        params.special_id = this.specialID
         params.problem_id = this.problemID
         let offset = (this.page - 1) * this.limit
-        let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
+        let func
+        if (this.contestID) func = 'getContestSubmissionList'
+        else if (this.specialID) func = 'getSpecialSubmissionList'
+        else func = 'getSubmissionList'
         this.loadingTable = true
         api[func](offset, this.limit, params).then(res => {
           let data = res.data.data
@@ -236,8 +242,13 @@
       changeRoute () {
         let query = utils.filterEmptyValue(this.buildQuery())
         query.contestID = this.contestID
+        query.specialID = this.specialID
         query.problemID = this.problemID
-        let routeName = query.contestID ? 'contest-submission-list' : 'submission-list'
+        // let routeName = query.contestID ? 'contest-submission-list' : 'submission-list'
+        let routeName
+        if (query.contestID) routeName = 'contest-submission-list'
+        else if (query.specialID) routeName = 'special-submission-list'
+        else routeName = 'submission-list'
         this.$router.push({
           name: routeName,
           query: utils.filterEmptyValue(query)

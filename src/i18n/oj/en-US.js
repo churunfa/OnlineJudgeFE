@@ -116,6 +116,7 @@ export const m = {
   Overview: 'Overview',
   Admin_Helper: 'Admin Helper',
   StartAt: 'StartAt',
+  CreatAt: 'CreatAt',
   EndAt: 'EndAt',
   ContestType: 'ContestType',
   Creator: 'Creator',
@@ -129,6 +130,7 @@ export const m = {
   Not_Started: 'Not_Started',
   Ended: 'Ended',
   No_contest: 'No contest',
+  No_special: 'No special',
   Please_login_first: 'Please login first!',
   // ContestProblemList
   Problems_List: 'Problems List',
@@ -147,6 +149,8 @@ export const m = {
   Home: 'Home',
   NavProblems: 'Problems',
   Contests: 'Contests',
+  SpecialType: 'special type',
+  Special: 'special',
   NavStatus: 'Status',
   Rank: 'Rank',
   ACM_Rank: 'ACM Rank',
@@ -257,5 +261,6 @@ export const m = {
   UserHomeserSubmissions: 'Submissions',
   UserHomeScore: 'Score',
   List_Solved_Problems: 'List of solved problems',
-  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.'
+  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
+  long_term: 'long term'
 }

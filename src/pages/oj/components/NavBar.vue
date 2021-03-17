@@ -14,6 +14,10 @@
         <Icon type="trophy"></Icon>
         {{$t('m.Contests')}}
       </Menu-item>
+      <Menu-item name="/special">
+        <Icon type="flag"></Icon>
+        {{$t('m.Special')}}
+      </Menu-item>
       <Menu-item name="/status">
         <Icon type="ios-pulse-strong"></Icon>
         {{$t('m.NavStatus')}}
@@ -59,7 +63,8 @@
       </template>
       <template v-else>
         <Dropdown class="drop-menu" @on-click="handleRoute" placement="bottom" trigger="click">
-          <Button type="text" class="drop-menu-title">{{ user.username }}
+          <Button type="text" class="drop-menu-title">
+            <span :class="$store.getters.usernameStyle(user)">{{ user.username }}</span>
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">

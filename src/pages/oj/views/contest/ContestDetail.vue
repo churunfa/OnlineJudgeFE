@@ -71,6 +71,7 @@
           {{$t('m.Admin_Helper')}}
         </VerticalMenu-item>
       </VerticalMenu>
+<!--      <div onclick="">点击</div>-->
     </div>
   </div>
 </template>
@@ -121,7 +122,19 @@
           {
             title: this.$i18n.t('m.Creator'),
             render: (h, data) => {
-              return h('span', data.row.created_by.username)
+              let clo = this.$store.getters.usernameStyle(data.row.created_by)
+              // data.row.created_by.username)
+              return h('a',
+                {
+                  class: [clo],
+                  on: {
+                    click: () => {
+                      this.$router.push({ path: '/user-home/?username=' + data.row.created_by.username })
+                      // console.log('/user-home' + ?username=)
+                    }
+                  }
+                },
+                data.row.created_by.username)
             }
           }
         ]

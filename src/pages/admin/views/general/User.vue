@@ -176,9 +176,14 @@
               <el-input v-model="user.username"></el-input>
             </el-form-item>
           </el-col>
+<!--          <el-col :span="12">-->
+<!--            <el-form-item :label="$t('m.User_Real_Name')" required>-->
+<!--              <el-input v-model="user.real_name"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
           <el-col :span="12">
-            <el-form-item :label="$t('m.User_Real_Name')" required>
-              <el-input v-model="user.real_name"></el-input>
+            <el-form-item :label="$t('m.StudentName')">
+              <el-input v-model="user.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -189,6 +194,36 @@
           <el-col :span="12">
             <el-form-item :label="$t('m.User_New_Password')">
               <el-input v-model="user.password"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.User_Ratting')">
+              <el-input v-model="user.rating"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.School')">
+              <el-input v-model="user.school"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.College')">
+              <el-input v-model="user.college"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.Major')">
+              <el-input v-model="user.major"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.Major_Simple')">
+              <el-input v-model="user.major_simple"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.Classes_Grades')">
+              <el-input v-model="user.classes_grades"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">

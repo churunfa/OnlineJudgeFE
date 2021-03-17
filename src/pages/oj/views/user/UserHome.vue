@@ -6,7 +6,7 @@
     <Card :padding="100">
       <div v-if="profile.user">
         <p style="margin-top: -10px">
-          <span v-if="profile.user" class="emphasis">{{profile.user.username}}</span>
+          <span v-if="profile.user" class="emphasis" :class="$store.getters.usernameStyle(profile.user)">{{profile.user.username}}</span>
           <span v-if="profile.school">@{{profile.school}}</span>
         </p>
         <p v-if="profile.mood">

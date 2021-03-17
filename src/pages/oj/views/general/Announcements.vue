@@ -19,7 +19,13 @@
               <div class="title"><a class="entry" @click="goAnnouncement(announcement)">
                 {{announcement.title}}</a></div>
               <div class="date">{{announcement.create_time | localtime }}</div>
-              <div class="creator"> {{$t('m.By')}} {{announcement.created_by.username}}</div>
+              <div class="creator">
+                <router-link :to="'/user-home/?username=' + announcement.created_by.username"
+                :class="$store.getters.usernameStyle(announcement.created_by)"
+                >
+                  {{$t('m.By')}} {{announcement.created_by.username}}
+                </router-link>
+              </div>
             </div>
           </li>
         </ul>
@@ -64,6 +70,8 @@
       init () {
         if (this.isContest) {
           this.getContestAnnouncementList()
+        } else if (this.isSpecial) {
+          this.getSpecialAnnouncementList()
         } else {
           this.getAnnouncementList()
         }
@@ -81,6 +89,15 @@
       getContestAnnouncementList () {
         this.btnLoading = true
         api.getContestAnnouncementList(this.$route.params.contestID).then(res => {
+          this.btnLoading = false
+          this.announcements = res.data.data
+        }, () => {
+          this.btnLoading = false
+        })
+      },
+      getSpecialAnnouncementList () {
+        this.btnLoading = true
+        api.getSpecialAnnouncementList(this.$route.params.specialID).then(res => {
           this.btnLoading = false
           this.announcements = res.data.data
         }, () => {
@@ -106,6 +123,9 @@
       },
       isContest () {
         return !!this.$route.params.contestID
+      },
+      isSpecial () {
+        return !!this.$route.params.specialID
       }
     }
   }

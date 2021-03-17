@@ -155,8 +155,47 @@ export default {
       params
     })
   },
+  getSpecialTypeList (offset, limit, searchParams) {
+    let params = {
+      offset,
+      limit
+    }
+    if (searchParams !== undefined) {
+      Object.keys(searchParams).forEach((element) => {
+        if (searchParams[element]) {
+          params[element] = searchParams[element]
+        }
+      })
+    }
+    return ajax('special-types', 'get', {
+      params
+    })
+  },
+  getSpecialList (offset, limit, searchParams) {
+    let params = {
+      offset,
+      limit
+    }
+    if (searchParams !== undefined) {
+      Object.keys(searchParams).forEach((element) => {
+        if (searchParams[element]) {
+          params[element] = searchParams[element]
+        }
+      })
+    }
+    return ajax('special-list', 'get', {
+      params
+    })
+  },
   getContest (id) {
     return ajax('contest', 'get', {
+      params: {
+        id
+      }
+    })
+  },
+  getSpecial (id) {
+    return ajax('special', 'get', {
       params: {
         id
       }
@@ -169,10 +208,25 @@ export default {
       }
     })
   },
+  getSpecialAccess (specialID) {
+    return ajax('special/access', 'get', {
+      params: {
+        special_id: specialID
+      }
+    })
+  },
   checkContestPassword (contestID, password) {
     return ajax('contest/password', 'post', {
       data: {
         contest_id: contestID,
+        password
+      }
+    })
+  },
+  checkSpecialPassword (specialID, password) {
+    return ajax('special/password', 'post', {
+      data: {
+        special_id: specialID,
         password
       }
     })
@@ -184,6 +238,13 @@ export default {
       }
     })
   },
+  getSpecialAnnouncementList (specialId) {
+    return ajax('special/announcement', 'get', {
+      params: {
+        special_id: specialId
+      }
+    })
+  },
   getContestProblemList (contestId) {
     return ajax('contest/problem', 'get', {
       params: {
@@ -191,10 +252,25 @@ export default {
       }
     })
   },
+  getSpecialProblemList (specialId) {
+    return ajax('special/problem', 'get', {
+      params: {
+        special_id: specialId
+      }
+    })
+  },
   getContestProblem (problemID, contestID) {
     return ajax('contest/problem', 'get', {
       params: {
         contest_id: contestID,
+        problem_id: problemID
+      }
+    })
+  },
+  getSpecialProblem (problemID, specialID) {
+    return ajax('special/problem', 'get', {
+      params: {
+        special_id: specialID,
         problem_id: problemID
       }
     })
@@ -215,6 +291,13 @@ export default {
     params.limit = limit
     params.offset = offset
     return ajax('contest_submissions', 'get', {
+      params
+    })
+  },
+  getSpecialSubmissionList (offset, limit, params) {
+    params.limit = limit
+    params.offset = offset
+    return ajax('special_submissions', 'get', {
       params
     })
   },
@@ -256,6 +339,11 @@ export default {
   },
   getContestRank (params) {
     return ajax('contest_rank', 'get', {
+      params
+    })
+  },
+  getSpecialRank (params) {
+    return ajax('special_rank', 'get', {
       params
     })
   },

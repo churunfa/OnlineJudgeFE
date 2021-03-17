@@ -18,6 +18,7 @@ import {
 } from '../views'
 
 import * as Contest from '@oj/views/contest'
+import * as Special from '@oj/views/special'
 import * as Setting from '@oj/views/setting'
 
 export default [
@@ -110,6 +111,55 @@ export default [
         name: 'acm-helper',
         path: 'helper',
         component: Contest.ACMContestHelper
+      }
+    ]
+  },
+  {
+    path: '/special',
+    redirect: '/special/type'
+  },
+  {
+    name: 'special-type-list',
+    path: '/special/type',
+    meta: {title: 'special Type List'},
+    component: Special.SpecialTypeList
+  },
+  {
+    name: 'special-list-details',
+    path: '/special/list/',
+    meta: {title: 'special List'},
+    component: Special.SpecialList
+  },
+  {
+    name: 'special-details',
+    path: '/special/:specialID',
+    component: Special.SpecialDetail,
+    meta: {title: 'Special Details'},
+    children: [
+      {
+        name: 'special-submission-list',
+        path: 'submissions',
+        component: SubmissionList
+      },
+      {
+        name: 'special-announcement-list',
+        path: 'announcements',
+        component: Announcements
+      },
+      {
+        name: 'special-problem-list',
+        path: 'problems',
+        component: Special.SpecialProblemList
+      },
+      {
+        name: 'special-problem-details',
+        path: 'problem/:problemID/',
+        component: Problem
+      },
+      {
+        name: 'special-rank',
+        path: 'rank',
+        component: Special.SpecialRank
       }
     ]
   },
